@@ -155,6 +155,45 @@ dt .hint{width:16px;height:16px;min-width:16px;font-size:10px}
 .hp section[hidden]{display:none}
 @media (max-width:700px){.hp{grid-template-columns:1fr}.hp nav{display:flex;overflow-x:auto;padding:8px;gap:4px}.hp nav button{white-space:nowrap}.hp .body{padding:16px}}
 </style>
+<style>
+/* Atas de registro de preços (SRP) */
+.pill.ata{background:color-mix(in srgb,var(--ok) 22%,transparent);color:var(--fg)}
+.pill.ata-off{background:var(--surface2);color:var(--muted)}
+.ata-sub{margin:12px 0 2px;font-size:.72rem;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:700}
+.ata-sub .ata-base{margin-left:6px;text-transform:none;letter-spacing:0;font-weight:400}
+.ata-wrap{overflow-x:auto;margin-top:4px;container-type:inline-size}
+.ata-tbl{width:100%;border-collapse:collapse;font-size:.8rem}
+.ata-tbl th,.ata-tbl td{border-bottom:1px solid var(--line);padding:6px 6px;text-align:left;vertical-align:top}
+.ata-tbl th{font-size:.62rem;letter-spacing:.03em;text-transform:uppercase;color:var(--muted);font-weight:700;text-align:center;vertical-align:bottom}
+.ata-tbl td.n{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+.ata-tbl td.lote{width:30%;min-width:150px;font-size:.76rem;overflow-wrap:anywhere}
+.ata-tbl td.org{min-width:150px;overflow-wrap:anywhere}
+.ata-tbl .pill{white-space:normal;display:inline-block}
+.ata-item{border:1px solid var(--line);border-radius:10px;padding:10px 12px;display:grid;gap:4px;margin-top:10px;min-width:0}
+.ata-item .top{display:flex;gap:8px;align-items:center;flex-wrap:wrap;background:none;padding:0;color:inherit}
+.ata-item .d{font-size:.88rem;color:var(--muted);overflow-wrap:anywhere}
+.ata-line{font-size:.78rem;line-height:1.4;color:var(--muted);margin-top:4px;overflow-wrap:anywhere}
+.ata-line b{color:var(--fg)}
+/* Quadros empilhados (um cartão por linha) quando o espaço é curto */
+@container (max-width:739px){
+  .ata-tbl thead{display:none}
+  .ata-tbl,.ata-tbl tbody,.ata-tbl tr{display:block;width:100%}
+  .ata-tbl tr{border:1px solid var(--line);border-radius:8px;padding:4px 10px;margin-bottom:8px}
+  .ata-tbl td{display:flex;justify-content:space-between;gap:12px;border:0;padding:3px 0;text-align:right;white-space:normal}
+  .ata-tbl td::before{content:attr(data-l);flex:0 0 44%;text-align:left;color:var(--muted);font-size:.68rem;letter-spacing:.04em;text-transform:uppercase;padding-top:2px}
+  .ata-tbl td.lote,.ata-tbl td.org{width:auto;min-width:0}
+}
+@media (max-width:640px){
+  .ata-wrap{overflow:visible}
+  .ata-tbl thead{display:none}
+  .ata-tbl,.ata-tbl tbody,.ata-tbl tr{display:block;width:100%}
+  .ata-tbl tr{border:1px solid var(--line);border-radius:8px;padding:4px 10px;margin-bottom:8px}
+  .ata-tbl td{display:flex;justify-content:space-between;gap:12px;border:0;padding:3px 0;text-align:right;white-space:normal}
+  .ata-tbl td::before{content:attr(data-l);flex:0 0 44%;text-align:left;color:var(--muted);font-size:.68rem;letter-spacing:.04em;text-transform:uppercase;padding-top:2px}
+  .ata-tbl td.lote,.ata-tbl td.org{width:auto;min-width:0}
+}
+</style>
+
 
 
 <div class="top">
@@ -190,12 +229,14 @@ dt .hint{width:16px;height:16px;min-width:16px;font-size:10px}
     <div class="f" id="wConf"><label for="fConf">Confiança<button type="button" class="hint" data-h="conf" aria-label="O que é isto?" aria-expanded="false">?</button></label><select id="fConf"><option value="">Toda confiança</option><option value="C">Código citado no PCA</option><option value="A">Alta</option><option value="M">Média</option><option value="B">Baixa</option></select></div>
     <div class="f" id="wOrg"><label for="fOrg">Órgão<button type="button" class="hint" data-h="org" aria-label="O que é isto?" aria-expanded="false">?</button></label><select id="fOrg"><option value="">Todos os órgãos</option><option value="45">45.34 UNIOESTE</option><option value="47">47.60 FUNSAÚDE (HUOP)</option></select></div>
     <div class="f" id="wKind" hidden><label for="fKind">Natureza<button type="button" class="hint" data-h="kind" aria-label="O que é isto?" aria-expanded="false">?</button></label><select id="fKind"><option value="">Toda natureza</option><option value="C">Material de consumo</option><option value="P">Material permanente</option><option value="S">Serviço</option></select></div>
+    <div class="f" id="wAta"><label for="fAta">Ata vigente (SRP)<button type="button" class="hint" data-h="fAta" aria-label="O que é isto?" aria-expanded="false">?</button></label><select id="fAta"><option value="">Com ou sem ata</option><option value="1">1º candidato com ata vigente</option><option value="any">Com ata (candidato ou parecida)</option><option value="none">Sem ata vigente</option></select></div>
   </div>
   <div class="legend">
     <button type="button" class="hint" data-h="legenda" aria-label="O que é isto?" aria-expanded="false">?</button>    <span class="pill c-C">Citado</span><span class="t">código GMS escrito na própria descrição</span>
     <span class="pill c-A">Alta</span><span class="t">≈80% acerto no 1º · ≈95% no top 3</span>
     <span class="pill c-M">Média</span><span class="t">≈40% no 1º · ≈60% no top 3</span>
     <span class="pill c-B">Baixa</span><span class="t">conferir manualmente</span>
+    <span class="pill ata">Ata</span><span class="t">ata de registro de preços vigente · UNIOESTE Foz<span id="ataBase"></span></span><button type="button" class="hint" data-h="ata" aria-label="O que é isto?" aria-expanded="false">?</button>
     <span class="stats" id="stats"></span><button type="button" class="hint" data-h="stats" aria-label="O que é isto?" aria-expanded="false">?</button>
   </div>
 
@@ -238,15 +279,17 @@ dt .hint{width:16px;height:16px;min-width:16px;font-size:10px}
      <tr><td>Uso</td><td>Comprova que a compra estava prevista</td><td>Item que entra na solicitação de compra</td></tr>
     </tbody></table>
     <p>Os códigos continuam diferentes, pois são documentos de natureza distinta. As <b>descrições</b>, porém, devem convergir: por isso o sistema sugere uma redação do PCA alinhada ao GMS.</p>
+    <p>Há ainda uma terceira camada: as <b>atas de registro de preços (SRP)</b>. Quando o item do GMS tem ata vigente em que a UNIOESTE Foz é órgão participante, a ficha mostra pregão, lote, quantidades, saldo e preço registrado, com a <b>data dos dados do GMS</b>. O solicitante vê, antes de planejar nova licitação, se o item já pode ser pedido por uma ata existente.</p>
    </section>
 
    <section data-t="Passo a passo" hidden>
     <ol>
      <li><b>Escolha por onde começar</b>: <i>Previsto no PCA</i> (você parte de uma linha do plano) ou <i>Catalogado no GMS</i> (você parte de um item do catálogo).</li>
      <li><b>Digite</b> palavras do item (ex.: <i>papel A4</i>), o nº de ordem do PCA ou o código GMS. Acentos e maiúsculas não importam.</li>
-     <li><b>Refine</b>, se precisar, pelos filtros de confiança, órgão ou natureza.</li>
+     <li><b>Refine</b>, se precisar, pelos filtros de confiança, órgão, natureza ou <i>Ata vigente (SRP)</i>.</li>
      <li><b>Clique em um resultado</b> da lista à esquerda. O painel à direita mostra o item e os correspondentes do outro lado.</li>
      <li><b>Confira</b> a descrição do correspondente sugerido. Clique no código para abrir o item e navegar entre PCA e GMS.</li>
+     <li><b>Veja a ata</b>: se o item traz o selo <span class="pill ata">Ata</span>, role até o quadro <i>Atas de registro de preços</i> e confira pregão, lote, saldo, preço registrado e situação. A data dos dados do GMS aparece em cada quadro (detalhes na seção “Atas vigentes (SRP)”).</li>
      <li><b>Use</b> os dois códigos e as duas descrições no DFD ou na solicitação. Em uma linha do PCA, copie a <i>Descrição do PCA alinhada ao GMS</i> para padronizar o próximo plano.</li>
     </ol>
     <div class="box">Dica: o botão <b>Voltar</b> do navegador retorna ao item anterior, e o endereço da página pode ser enviado a um colega para abrir o mesmo item.</div>
@@ -257,10 +300,10 @@ dt .hint{width:16px;height:16px;min-width:16px;font-size:10px}
      <tr><td>Topo</td><td>Botões de acesso às consultas separadas (PCA Aqui e, quando disponível, GMS Aqui) e este tutorial.</td></tr>
      <tr><td>Previsto no PCA ⇄ Catalogado no GMS</td><td>Define em qual base a busca é feita. O resultado sempre traz o outro lado.</td></tr>
      <tr><td>Caixa de busca</td><td>Aceita palavras, nº de ordem do PCA ou código GMS.</td></tr>
-     <tr><td>Filtros</td><td><b>Confiança</b> e <b>Órgão</b> (busca no PCA); <b>Natureza</b> (busca no GMS).</td></tr>
-     <tr><td>Legenda</td><td>Cores dos níveis de confiança e total de resultados (até 150 por busca).</td></tr>
-     <tr><td>Lista (esquerda)</td><td>Resultados da busca. No PCA: nº de ordem, confiança, subelemento e unidade. No GMS: código, natureza e quantas linhas do PCA se ligam ao item.</td></tr>
-     <tr><td>Painel (direita)</td><td>Ficha do item escolhido, correspondentes do outro lado e, no PCA, a descrição alinhada ao GMS.</td></tr>
+     <tr><td>Filtros</td><td><b>Confiança</b>, <b>Órgão</b> e <b>Ata vigente (SRP)</b> (busca no PCA); <b>Natureza</b> e <b>Ata vigente (SRP)</b> (busca no GMS).</td></tr>
+     <tr><td>Legenda</td><td>Cores dos níveis de confiança, selo <span class="pill ata">Ata</span> com a data dos dados do GMS e total de resultados (até 150 por busca).</td></tr>
+     <tr><td>Lista (esquerda)</td><td>Resultados da busca. No PCA: nº de ordem, confiança, subelemento e unidade. No GMS: código, natureza e quantas linhas do PCA se ligam ao item. Os itens com ata trazem o selo <span class="pill ata">Ata</span> e uma linha-resumo (processo, lote, saldo, preço, situação e data dos dados).</td></tr>
+     <tr><td>Painel (direita)</td><td>Ficha do item escolhido, correspondentes do outro lado, os quadros das atas de registro de preços e, no PCA, a descrição alinhada ao GMS.</td></tr>
     </tbody></table>
     <p>Os ícones <b>?</b> espalhados pela tela explicam cada parte. Passe o mouse ou toque neles.</p>
    </section>
@@ -293,11 +336,69 @@ dt .hint{width:16px;height:16px;min-width:16px;font-size:10px}
     <div class="box">Objetivo: com o tempo, o texto do PCA passa a reproduzir o do GMS, o que reduz retrabalho e divergência entre planejamento e compra.</div>
    </section>
 
+
+   <section data-t="Atas vigentes (SRP)" hidden>
+    <p>Os dados vêm do <b>Mapa de Consumo de Item SRP</b> do GMS, que lista os itens com <b>ata de registro de preços</b> em que a UNIOESTE Foz é órgão participante. Na ficha de cada item, aparecem dois quadros, com os mesmos títulos e colunas do relatório do GMS.</p>
+    <table><thead><tr><th>Onde aparece</th><th>O que mostra</th></tr></thead><tbody>
+     <tr><td>Selo <span class="pill ata">Ata</span></td><td>O item (ou, no PCA, um candidato da linha) tem ata vigente. Mostra o menor preço registrado entre as atas vigentes.</td></tr>
+     <tr><td>Selo <span class="pill ata-off">Ata parecida</span></td><td>Há ata vigente para um item de descrição parecida, fora dos 5 candidatos. Sugestão automática: conferir antes de usar.</td></tr>
+     <tr><td>Linha-resumo abaixo de cada resultado</td><td>Processo SRP e lote, saldo da ata, quantidade da UNIOESTE Foz, preço registrado, situação e data dos dados do GMS.</td></tr>
+     <tr><td>Filtro “Ata vigente (SRP)”</td><td>Separa o que já pode ser pedido por ata do que ainda depende de licitação.</td></tr>
+     <tr><td>Quadros da ficha</td><td>“Processos e lotes com o item registrado” e “Órgãos participantes”, descritos a seguir.</td></tr>
+    </tbody></table>
+
+    <h3>Quadro 1 · Processos e lotes com o item registrado</h3>
+    <p>Uma linha por processo SRP e lote. Se o item está registrado em mais de um pregão, todos aparecem.</p>
+    <table><thead><tr><th>Coluna</th><th>Significado</th></tr></thead><tbody>
+     <tr><td>Processo SRP</td><td>Pregão que originou a ata (ex.: PREG-e 603/2026).</td></tr>
+     <tr><td>Lote</td><td>Lote da ata em que o item está registrado e o que o lote contém.</td></tr>
+     <tr><td>Quantidade licitada</td><td>Quantidade registrada no lote, somados todos os órgãos.</td></tr>
+     <tr><td>Quantidade bloqueada</td><td>Quantidade já reservada (bloqueada) no GMS.</td></tr>
+     <tr><td>Quantidade consumida</td><td>Quantidade já consumida da ata.</td></tr>
+     <tr><td>Saldo (sem adicional)</td><td>O que resta da ata: licitada − bloqueada − consumida. O GMS não mostra saldo negativo.</td></tr>
+     <tr><td>Preço registrado</td><td>Valor unitário da ata, na unidade de fornecimento do item.</td></tr>
+     <tr><td>Situação</td><td>“Ativo até” a data de validade da ata. Ata vencida aparece como sem vigência.</td></tr>
+    </tbody></table>
+
+    <h3>Quadro 2 · Órgãos participantes</h3>
+    <p>A cota da UNIOESTE Foz em cada lote. É a parte que interessa para o pedido.</p>
+    <table><thead><tr><th>Coluna</th><th>Significado</th></tr></thead><tbody>
+     <tr><td>Órgão GMS</td><td>Órgão participante. Aqui, sempre a UNIOESTE Foz.</td></tr>
+     <tr><td>Lote</td><td>Mesmo lote do quadro 1.</td></tr>
+     <tr><td>Quantidade prevista</td><td>Cota da UNIOESTE Foz no lote.</td></tr>
+     <tr><td>Quantidade bloqueada · realizada</td><td>Parte da cota já reservada e parte já consumida pela UNIOESTE Foz. O traço (—) indica que não há quantidade.</td></tr>
+     <tr><td>% adicional / prorrogação</td><td>Acréscimo percentual permitido sobre a cota (0,00 = sem adicional).</td></tr>
+     <tr><td>Saldo (com adicional)</td><td>Prevista × (1 + % adicional) − bloqueada − realizada. Indica quanto a UNIOESTE Foz ainda pode pedir pela ata.</td></tr>
+    </tbody></table>
+
+    <h3>Exemplo · item 7005-485</h3>
+    <p>Etiqueta adesiva 33,9 mm x 101,6 mm, caixa com 140 unidades.</p>
+    <table><thead><tr><th>Campo</th><th>Valor no GMS</th></tr></thead><tbody>
+     <tr><td>Processo SRP · lote</td><td>PREG-e 603/2026 · lote 33</td></tr>
+     <tr><td>Licitada · bloqueada · consumida</td><td>56 · 0 · 3</td></tr>
+     <tr><td>Saldo (sem adicional)</td><td>53 (56 − 0 − 3)</td></tr>
+     <tr><td>Preço registrado · situação</td><td>R$ 46,80 · Ativo até 19/07/2027</td></tr>
+     <tr><td>UNIOESTE Foz</td><td>prevista 5 · bloqueada e realizada sem valor (—) · adicional 0,00 · saldo (com adicional) 5,00</td></tr>
+    </tbody></table>
+    <p>Leitura: a ata está ativa até 19/07/2027; a UNIOESTE Foz tem cota de 5 unidades de fornecimento, ainda sem uso, a R$ 46,80 cada. Um pedido de até 5 unidades cabe na cota; acima disso, depende de novo saldo ou de outra forma de contratação.</p>
+
+    <h3>Roteiro de leitura antes de pedir pela ata</h3>
+    <ol>
+     <li><b>Situação</b>: “Ativo” e validade posterior à data prevista para a compra.</li>
+     <li><b>Saldo (com adicional)</b> da UNIOESTE Foz, no quadro 2: igual ou maior que a quantidade necessária.</li>
+     <li><b>Saldo (sem adicional)</b> da ata, no quadro 1: ainda há quantidade disponível no lote.</li>
+     <li><b>Preço registrado</b>: compare com a estimativa da linha do PCA.</li>
+     <li><b>Data dos dados do GMS</b>: se for antiga para a decisão, confirme no GMS.</li>
+    </ol>
+
+    <div class="box"><b>Data dos dados.</b> Os quadros trazem a data e a hora de emissão do relatório do GMS (ex.: 13/10/2026 14:34), que é a última atualização dos dados. Quantidades, saldos e situações mudam a cada bloqueio e consumo; os números valem para essa data. A atualização é feita por quem mantém o UniCompras, a partir do relatório mais recente do GMS. O roteiro acima é uma orientação de leitura e não substitui a conferência no GMS nem a análise do setor de compras.</div>
+   </section>
    <section data-t="Cuidados e fontes" hidden>
     <ul>
      <li>As correspondências são <b>sugestões automáticas</b> por semelhança de texto. A decisão final é de quem elabora o documento, com apoio do setor de compras.</li>
      <li>Antes de usar um código, confirme no GMS se o item continua ativo.</li>
-     <li>Fontes: PCA 2026 v.19 da UNIOESTE e Catálogo de Itens de Materiais e Serviços do GMS-PR (SEAP), relatório de 09/10/2026.</li>
+     <li>Os saldos e as situações das atas mudam a cada bloqueio e consumo. Os números valem para a data dos dados do GMS exibida; confirme no GMS antes de formalizar um pedido.</li>
+     <li>Fontes: PCA 2026 v.19 da UNIOESTE, Catálogo de Itens de Materiais e Serviços do GMS-PR (SEAP), relatório de 09/10/2026, e Mapa de Consumo de Item SRP da UNIOESTE Foz, emitido em 13/10/2026.</li>
      <li>Itens do GMS incluídos ou desativados depois dessa data ainda não aparecem aqui.</li>
     </ul>
    </section>
@@ -330,6 +431,13 @@ const HELP = {
   classe:["Classe","Os 4 primeiros dígitos do código GMS indicam a classe do material ou serviço."],
   unid:["Unidade de medida","Unidade de fornecimento definida no catálogo GMS."],
   ligadas:["Linhas ligadas","Total de linhas do PCA que apontam para este item ou se parecem com ele."],
+  ata:["Ata vigente (SRP)","Item com ata de registro de preços vigente para a UNIOESTE Foz, segundo o Mapa de Consumo de Item SRP do GMS. O valor no selo é o menor preço registrado entre as atas vigentes. Saldos e situações valem para a data dos dados do GMS."],
+  atas:["Atas de registro de preços","Reproduz os dois quadros do relatório do GMS: processos e lotes com o item registrado e órgãos participantes (UNIOESTE Foz), sempre com a data dos dados."],
+  procs:["Processos e lotes com o item registrado","Cada linha é um processo SRP (pregão) e um lote em que o item está registrado: o que o lote contém, quantidades licitada, bloqueada e consumida, saldo da ata (sem adicional), preço registrado e situação (Ativo até a data de validade)."],
+  orgs:["Órgãos participantes","Cota da UNIOESTE Foz no lote: quantidade prevista, bloqueada e realizada, % de adicional/prorrogação e saldo com adicional. O saldo com adicional indica quanto a UNIOESTE Foz ainda pode pedir pela ata."],
+  database:["Data dos dados do GMS","Data e hora de emissão do relatório do GMS que alimenta as atas. Quantidades, saldos e situações mudam a cada bloqueio e consumo: os números valem para essa data. A atualização é feita por quem mantém o UniCompras, a partir do relatório mais recente do GMS."],
+  ataSug:["Ata parecida","Item com ata vigente cuja descrição se parece com esta linha do PCA, mas que não está entre os 5 candidatos. Sugestão automática: confira antes de usar."],
+  fAta:["Filtro de ata","No PCA: linhas cujo 1º candidato tem ata vigente, linhas com ata em qualquer candidato (ou ata parecida) e linhas sem ata. No GMS: itens com ou sem ata vigente."],
   linhas:["Linhas do PCA","Linhas do PCA que indicam este item. “1º candidato” = é a primeira sugestão daquela linha. “Semelhança inversa” = linha parecida que não o colocou entre as 5 primeiras."]
 };
 const H = k => `<button type="button" class="hint" data-h="${k}" aria-label="O que é: ${HELP[k]?HELP[k][0]:""}" aria-expanded="false">?</button>`;
@@ -391,6 +499,85 @@ const CONF = {C:"Citado no PCA",A:"Alta",M:"Média",B:"Baixa"};
 const KIND = {C:"Consumo",P:"Permanente",S:"Serviço"};
 const STOP = new Set("DE DA DO DAS DOS COM PARA E EM O A OS AS POR UM UMA NO NA NOS NAS AO OU SEM TIPO DEMAIS INFORMACOES ACORDO TERMO REFERENCIA CARACTERISTICAS ADICIONAIS UNID MEDIDA UNITARIO DESCRITIVO TECNICO PROCESSO".split(" "));
 let P, G, subs, classes, mode = "PCA", sel = null, fwdIdx = null, pN, gN;
+let SR = null, srpG = new Map(), srpJ = [], srpSug = [], sugByS = new Map();
+const NUMF = new Intl.NumberFormat("pt-BR"), BRL = new Intl.NumberFormat("pt-BR", {style:"currency", currency:"BRL"});
+const TODAY = new Date().toISOString().slice(0,10);
+const procActive = p => /^Ativo/i.test(p[8]||"") && (!p[9] || p[9] >= TODAY);
+const srpOf = j => { const si = srpG.get(j); return si == null ? null : SR.rows[si]; };
+const ataActive = j => { const s = srpOf(j); return !!(s && s[2].some(procActive)); };
+function bestProc(j){ const s = srpOf(j); if(!s) return null; const act = s[2].filter(procActive); return (act.length ? act : s[2]).slice().sort((a,b) => (a[7]??1e18) - (b[7]??1e18))[0]; }
+function ataStatus(i){
+  if(!SR) return ""; const r = P[i];
+  if(r[11][0] && ataActive(r[11][0][0])) return "1";
+  if(r[11].some(c => ataActive(c[0]))) return "cand";
+  const sg = srpSug[i]; if(sg && SR.rows[sg[0]][2].some(procActive)) return "sug";
+  return "";
+}
+function ataPill(j){
+  const p = bestProc(j); if(!p) return "";
+  const on = procActive(p);
+  return on ? `<span class="pill ata" title="Ata de registro de preços vigente">Ata${p[7]!=null?" · "+BRL.format(p[7]):""}</span>` : `<span class="pill ata-off">Ata · ${esc(p[8]||"sem situação")}</span>`;
+}
+const emitido = () => (SR && SR.meta && SR.meta.emitido) || "";
+const orgNome = () => (SR && SR.meta && SR.meta.filtro) || "UNIOESTE FOZ";
+const N2 = new Intl.NumberFormat("pt-BR", {minimumFractionDigits:2, maximumFractionDigits:2});
+const qf = v => v == null ? "—" : NUMF.format(v);
+const n2 = v => v == null ? "—" : N2.format(v);
+/* Mesma estrutura do relatório do GMS: "Processos e lotes com o item registrado" e "Órgãos participantes" */
+function ataTable(j){
+  const s = srpOf(j); if(!s) return "";
+  const em = emitido(), org = esc(orgNome());
+  const sit = p => procActive(p) ? `<span class="pill ata">${esc(p[8])}</span>` : esc(p[8] || "—");
+  const t1 = s[2].map(p => `<tr><td data-l="Processo SRP">${esc(p[0])}</td><td class="lote" data-l="Lote">${esc(p[2] || (p[1] == null ? "" : p[1]))}</td><td class="n" data-l="Quantidade licitada">${qf(p[3])}</td><td class="n" data-l="Quantidade bloqueada">${qf(p[4])}</td><td class="n" data-l="Quantidade consumida">${qf(p[5])}</td><td class="n" data-l="Saldo (sem adicional)"><b>${qf(p[6])}</b></td><td class="n" data-l="Preço registrado">${p[7] != null ? BRL.format(p[7]) : "—"}</td><td data-l="Situação">${sit(p)}</td></tr>`).join("");
+  const t2 = s[2].map(p => `<tr><td class="org" data-l="Órgão GMS">${org}</td><td class="n" data-l="Lote">${esc(p[1] == null ? "" : p[1])}</td><td class="n" data-l="Quantidade prevista">${qf(p[10])}</td><td class="n" data-l="Quantidade bloqueada">${qf(p[11])}</td><td class="n" data-l="Quantidade realizada">${qf(p[12])}</td><td class="n" data-l="% adicional / prorrogação">${n2(p[13])}</td><td class="n" data-l="Saldo (com adicional)"><b>${n2(p[14])}</b></td></tr>`).join("");
+  return `<div class="ata-sub">Processos e lotes com o item registrado${H("procs")}${em ? `<span class="ata-base">· dados do GMS em ${esc(em)}</span>` : ""}</div>
+    <div class="ata-wrap"><table class="ata-tbl"><thead><tr><th>Processo SRP</th><th>Lote</th><th>Quantidade licitada</th><th>Quantidade bloqueada</th><th>Quantidade consumida</th><th>Saldo (sem adicional)</th><th>Preço registrado</th><th>Situação</th></tr></thead><tbody>${t1}</tbody></table></div>
+    <div class="ata-sub">Órgãos participantes${H("orgs")}</div>
+    <div class="ata-wrap"><table class="ata-tbl"><thead><tr><th>Órgão GMS</th><th>Lote</th><th>Quantidade prevista</th><th>Quantidade bloqueada</th><th>Quantidade realizada</th><th>% adicional / prorrogação</th><th>Saldo (com adicional)</th></tr></thead><tbody>${t2}</tbody></table></div>`;
+}
+const ataNota = () => `<p class="note">Fonte: GMS · Mapa de Consumo de Item SRP${emitido() ? ", posição em " + esc(emitido()) + " (última atualização dos dados)" : ""}. Quantidades, saldos e situações mudam a cada bloqueio e consumo: confirme no GMS antes de formalizar.${H("database")}</p>`;
+/* Linha-resumo da melhor ata (menor preço entre as vigentes) para as listas de resultado */
+function ataLine(j, withCode, label){
+  const s = srpOf(j); if(!s) return "";
+  const p = bestProc(j); if(!p) return "";
+  const em = emitido().slice(0, 10), n = s[2].length, bits = [];
+  if(withCode) bits.push("GMS " + G[j][0]);
+  bits.push(p[0] + (p[1] != null ? " · lote " + p[1] : ""));
+  bits.push("saldo da ata " + qf(p[6]) + " (licitada " + qf(p[3]) + ", consumida " + qf(p[5]) + ")");
+  if(p[10] != null) bits.push("UNIOESTE Foz: prevista " + qf(p[10]) + ", saldo " + n2(p[14]));
+  bits.push(p[7] != null ? BRL.format(p[7]) : "sem preço");
+  bits.push(p[8] || "sem situação");
+  if(n > 1) bits.push("+" + (n - 1) + " lote(s)/pregão(ões)");
+  if(em) bits.push("dados do GMS de " + em);
+  return `<div class="ata-line">${label ? "<b>" + esc(label) + ":</b> " : ""}${esc(bits.join(" · "))}</div>`;
+}
+function ataLineP(i){
+  if(!SR) return ""; const r = P[i];
+  const c = r[11].find(x => ataActive(x[0]));
+  if(c) return ataLine(c[0], true);
+  const sg = srpSug[i], jj = sg ? srpJ[sg[0]] : null;
+  return jj != null && ataActive(jj) ? ataLine(jj, true, "Ata parecida") : "";
+}
+function ataBlock(j, tag){
+  const d = G[j][2];
+  return `<div class="ata-item"><div class="top"><button class="linkbtn code" data-g="${j}">${esc(G[j][0])}</button>${tag||""}</div><div class="d">${esc(d.slice(0,200))}${d.length>200?"…":""}</div>${ataTable(j)}</div>`;
+}
+function pcaSig(rows){ let h = 5381; for(const r of rows){ const t = r[0]+"|"+r[5]; for(let i=0;i<t.length;i++) h = ((h<<5)+h+t.charCodeAt(i))|0; } return rows.length+":"+(h>>>0).toString(36); }
+function setupSRP(s){
+  SR = s && s.rows ? s : null; srpG = new Map(); srpJ = []; srpSug = new Array(P.length); sugByS = new Map();
+  if(!SR) return;
+  const idx = new Map(G.map((r,j) => [r[0], j]));
+  SR.rows.forEach((row, si) => {
+    let j = idx.get(row[0]);
+    if(j == null){ const like = G.find(r => r[0].slice(0,4) === row[0].slice(0,4)); G.push([row[0], like ? like[1] : "C", row[1], [], 1]); j = G.length-1; gN[j] = norm(row[0]+" "+row[1]); idx.set(row[0], j); }
+    srpG.set(j, si); srpJ[si] = j;
+  });
+  const apply = L => { L.forEach(([pi,si,sc]) => { srpSug[pi] = [si,sc]; if(!sugByS.has(si)) sugByS.set(si, []); sugByS.get(si).push([pi,sc]); }); };
+  if(SR.sig === pcaSig(P)) apply(SR.links || []);
+  else if(window.UCM && UCM.srpLinks){
+    setTimeout(() => { const L = UCM.srpLinks(P, G, SR.rows.map(r => ({code:r[0], desc:r[1]}))), out = []; L.forEach((v,i) => { if(v) out.push([i, v[0], v[1]]); }); SR.links = out; SR.sig = pcaSig(P); apply(out); if(window.UCAPP) UCAPP.onSrpLinks && UCAPP.onSrpLinks(SR); run(); }, 60);
+  }
+}
 const norm = s => (s||"").normalize("NFD").replace(/[̀-ͯ]/g,"").toUpperCase();
 const toks = s => norm(s).replace(/[^A-Z0-9 ]/g," ").split(/\s+/).filter(t => t.length>1 && !STOP.has(t)).map(t => t.length>4 && t.endsWith("S") ? t.slice(0,-1) : t);
 const esc = s => String(s??"").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
@@ -411,11 +598,16 @@ async function gunzipJSON(buf){
   const ds = new Blob([buf]).stream().pipeThrough(new DecompressionStream("gzip"));
   return JSON.parse(await new Response(ds).text());
 }
-async function boot(pb, gb){
-  const [p, g] = await Promise.all([gunzipJSON(pb), gunzipJSON(gb)]);
-  P = p.rows; subs = p.subs; G = g.rows; classes = g.classes;
+async function boot(pb, gb, sb){
+  const [p, g, s] = await Promise.all([gunzipJSON(pb), gunzipJSON(gb), sb ? gunzipJSON(sb).catch(() => null) : Promise.resolve(null)]);
+  return bootData(p, g, s);
+}
+function bootData(p, g, s){
+  P = p.rows; subs = p.subs || {}; G = g.rows.slice(); classes = g.classes || {}; sel = null;
   pN = P.map(r => norm(r[0]+" "+r[4]+" "+r[5]));
   gN = G.map(r => norm(r[0]+" "+r[2]));
+  setupSRP(s); $("#wAta").hidden = !SR;
+  $("#ataBase").textContent = SR && emitido() ? " · dados do GMS em " + emitido() : "";
   // índice inverso pelos candidatos do PCA
   fwdIdx = new Map();
   P.forEach((r,i) => r[11].forEach(([j,s],k) => { if(!fwdIdx.has(j)) fwdIdx.set(j,[]); fwdIdx.get(j).push([i,s,k]); }));
@@ -442,7 +634,8 @@ async function openWith(key){
   const pca = await decryptFile(key, "pca");          // falha aqui = credencial errada
   $("#gate").hidden = true; $("#loader").hidden = false;
   const gms = await decryptFile(key, "gms");
-  await boot(pca, gms);
+  const srp = await decryptFile(key, "srp").catch(() => null);
+  await boot(pca, gms, srp);
   $("#logout").hidden = false;
 }
 async function load(){
@@ -475,7 +668,7 @@ $("#files").addEventListener("change", async e => {
 });
 
 function search(){
-  const q = $("#q").value.trim(), fc = $("#fConf").value, fo = $("#fOrg").value, fk = $("#fKind").value;
+  const q = $("#q").value.trim(), fc = $("#fConf").value, fo = $("#fOrg").value, fk = $("#fKind").value, fa = $("#fAta").value;
   const out = []; const LIM = 150;
   if(mode === "PCA"){
     const byOrd = /^\d{1,5}$/.test(q);
@@ -483,6 +676,7 @@ function search(){
     for(let i=0;i<P.length && out.length<LIM;i++){
       const r = P[i];
       if(fc && r[9]!==fc) continue; if(fo && r[1]!==fo) continue;
+      if(fa){ const st = ataStatus(i); if(fa==="1" ? st!=="1" : fa==="any" ? !st : !!st) continue; }
       if(byOrd){ if(r[0]!==q) continue; }
       else if(words.length && !words.every(w => pN[i].includes(w))) continue;
       out.push(i);
@@ -493,6 +687,7 @@ function search(){
     for(let j=0;j<G.length && out.length<LIM;j++){
       const r = G[j];
       if(fk && r[1]!==fk) continue;
+      if(fa){ const a = ataActive(j); if(fa==="none" ? a : !a) continue; }
       if(isCode){ if(!r[0].replace("-","").startsWith(q.replace("-",""))) continue; }
       else if(words.length && !words.every(w => gN[j].includes(w))) continue;
       out.push(j);
@@ -507,9 +702,9 @@ function run(){
   ids.forEach(i => {
     const b = document.createElement("button"); b.className = "res"; b.setAttribute("role","option"); b.dataset.i = i;
     if(mode==="PCA"){ const r = P[i];
-      b.innerHTML = `<div class="meta"><span class="code">PCA ${esc(r[0])}</span><span class="pill c-${r[9]}">${CONF[r[9]]}</span><span>${esc(r[3])}</span><span>${esc(r[2]||"")}</span></div><div class="txt">${esc(r[5])}</div>`;
+      b.innerHTML = `<div class="meta"><span class="code">PCA ${esc(r[0])}</span><span class="pill c-${r[9]}">${CONF[r[9]]}</span>${(st => st ? `<span class="pill ${st==="sug"?"ata-off":"ata"}">${st==="sug"?"Ata parecida":"Ata"}</span>` : "")(ataStatus(i))}<span>${esc(r[3])}</span><span>${esc(r[2]||"")}</span></div><div class="txt">${esc(r[5])}</div>${ataLineP(i)}`;
     }else{ const r = G[i]; const n = (fwdIdx.get(i)||[]).length;
-      b.innerHTML = `<div class="meta"><span class="code">${esc(r[0])}</span><span class="k">${KIND[r[1]]}</span><span>${n ? n + " linha(s) do PCA" : "sem linha no PCA"}</span></div><div class="txt">${esc(r[2])}</div>`;
+      b.innerHTML = `<div class="meta"><span class="code">${esc(r[0])}</span><span class="k">${KIND[r[1]]}</span>${ataPill(i)}<span>${n ? n + " linha(s) do PCA" : "sem linha no PCA"}</span></div><div class="txt">${esc(r[2])}</div>${ataLine(i)}`;
     }
     b.addEventListener("click", () => select(i));
     L.appendChild(b);
@@ -532,8 +727,16 @@ function showPCA(i){
   const same = P.reduce((a,x,k) => (x[10]===r[10] && k!==i ? a+1 : a), 0);
   const cands = r[11].map(([j,s],k) => candHTML(k+1,
     `<button class="linkbtn code" data-g="${j}">${esc(G[j][0])}</button>`, KIND[G[j][1]], G[j][2], s, set,
-    `<span class="score">${esc(cls(G[j][0]))}</span>`)).join("");
+    `<span class="score">${esc(cls(G[j][0]))}</span>${ataPill(j)}`)).join("");
   const best = r[11][0] ? G[r[11][0][0]] : null;
+  const ataJs = SR ? [...new Set(r[11].map(c => c[0]).filter(j => srpG.has(j)))] : [];
+  const sg = srpSug[i], sgJ = sg ? srpJ[sg[0]] : null;
+  const ataCard = (ataJs.length || (sgJ!=null && !ataJs.includes(sgJ))) ? `<section class="card">
+    <div class="eyebrow">Atas de registro de preços · UNIOESTE Foz${H("atas")}</div>
+    ${ataJs.map(j => ataBlock(j, ataPill(j))).join("")}
+    ${sgJ!=null && !ataJs.includes(sgJ) ? ataBlock(sgJ, `<span class="pill ata-off">Ata parecida · sim. ${sg[1].toFixed(2)} · conferir</span>${H("ataSug")}`) : ""}
+    ${ataNota()}
+  </section>` : "";
   $("#detail").innerHTML = `
   <article class="card src">
     <div class="eyebrow">Previsto no PCA · nº de ordem ${esc(r[0])} · <span class="pill c-${r[9]}">${CONF[r[9]]}</span>${H("pca")}</div>
@@ -551,6 +754,7 @@ function showPCA(i){
     <div class="eyebrow">Correspondentes possíveis no GMS${H("cands")}${H("sim")}</div>
     <div class="cands" style="margin-top:10px">${cands || '<div class="empty">Sem candidato.</div>'}</div>
   </section>
+  ${ataCard}
   ${best?`<section class="card sugg">
     <div class="eyebrow">Descrição do PCA alinhada ao GMS · item ${esc(best[0])}${H("alinhada")}</div>
     <pre id="sg">${esc(suggestion(best[2]))}</pre>
@@ -564,12 +768,16 @@ function showGMS(j){
   const fwd = (fwdIdx.get(j)||[]).slice().sort((a,b) => a[2]-b[2] || b[1]-a[1]);
   const seen = new Set(fwd.map(x => x[0]));
   const rev = r[3].filter(([pi]) => !seen.has(pi));
+  const sgl = SR && srpG.has(j) ? (sugByS.get(srpG.get(j)) || []).filter(([pi]) => !seen.has(pi) && !rev.some(x => x[0]===pi)) : [];
   const rows = fwd.slice(0,40).map(([pi,s,k],n) => candHTML(n+1,
       `<button class="linkbtn code" data-p="${pi}">PCA ${esc(P[pi][0])}</button>`, "", P[pi][5], s, set,
       `<span class="pill c-${P[pi][9]}">${k===0?"1º candidato":(k+1)+"º candidato"}</span>`)).join("")
     + rev.map(([pi,s],n) => candHTML(fwd.length+n+1,
       `<button class="linkbtn code" data-p="${pi}">PCA ${esc(P[pi][0])}</button>`, "", P[pi][5], s, set,
-      `<span class="score">semelhança inversa</span>`)).join("");
+      `<span class="score">semelhança inversa</span>`)).join("")
+    + sgl.slice(0,30).map(([pi,s],n) => candHTML(fwd.length+rev.length+n+1,
+      `<button class="linkbtn code" data-p="${pi}">PCA ${esc(P[pi][0])}</button>`, "", P[pi][5], s, set,
+      `<span class="pill ata-off">ata parecida</span>`)).join("");
   $("#detail").innerHTML = `
   <article class="card src">
     <div class="eyebrow">Catalogado no GMS · ${esc(KIND[r[1]])}${H("gms")}</div>
@@ -578,9 +786,12 @@ function showGMS(j){
     <dl class="facts">
       <div><dt>Classe${H("classe")}</dt><dd>${esc(cls(r[0]))}</dd></div>
       <div><dt>Unidade de medida${H("unid")}</dt><dd>${esc(unit(r[2])||"—")}</dd></div>
-      <div><dt>Linhas do PCA ligadas${H("ligadas")}</dt><dd>${fwd.length + rev.length}</dd></div>
+      <div><dt>Linhas do PCA ligadas${H("ligadas")}</dt><dd>${fwd.length + rev.length + sgl.length}</dd></div>
+      ${SR?`<div><dt>Ata vigente${H("ata")}</dt><dd>${ataActive(j)?"Sim · "+ataPill(j):(srpG.has(j)?"Ata sem vigência":"Não")}</dd></div>`:""}
+      ${SR && emitido() ?`<div><dt>Dados das atas${H("database")}</dt><dd>GMS em ${esc(emitido())}</dd></div>`:""}
     </dl>
   </article>
+  ${SR && srpG.has(j) ? `<section class="card"><div class="eyebrow">Atas de registro de preços · UNIOESTE Foz${H("atas")}</div>${ataTable(j)}${ataNota()}</section>` : ""}
   <section class="card">
     <div class="eyebrow">Linhas do PCA correspondentes${H("linhas")}${H("sim")}</div>
     <div class="cands" style="margin-top:10px">${rows || '<div class="empty">Nenhuma linha do PCA 2026 corresponde a este item. Se ele for comprado, precisa entrar no PCA.</div>'}</div>
@@ -600,14 +811,19 @@ function wire(){
 function setMode(m){
   mode = m; $("#mPCA").setAttribute("aria-pressed", String(m==="PCA")); $("#mGMS").setAttribute("aria-pressed", String(m==="GMS"));
   $("#wConf").hidden = m!=="PCA"; $("#wOrg").hidden = m!=="PCA"; $("#wKind").hidden = m!=="GMS";
+  const fa = $("#fAta"), keep = fa.value;
+  fa.innerHTML = m==="PCA" ? '<option value="">Com ou sem ata</option><option value="1">1º candidato com ata vigente</option><option value="any">Com ata (candidato ou parecida)</option><option value="none">Sem ata vigente</option>' : '<option value="">Com ou sem ata</option><option value="any">Com ata vigente</option><option value="none">Sem ata vigente</option>';
+  fa.value = [...fa.options].some(o => o.value===keep) ? keep : "";
+  $("#wAta").hidden = !SR;
 }
 function jump(m, i){
   setMode(m); $("#q").value = m==="PCA" ? P[i][0] : G[i][0]; sel = i; run();
 }
+window.UCAPP = {bootData, boot, run: () => run(), data: () => ({P, G, subs, classes, SR}), onSrpLinks: null};
 $("#mPCA").onclick = () => { setMode("PCA"); sel=null; run(); };
 $("#mGMS").onclick = () => { setMode("GMS"); sel=null; run(); };
 let tm; $("#q").addEventListener("input", () => { clearTimeout(tm); tm = setTimeout(() => { sel=null; run(); }, 180); });
-["#fConf","#fOrg","#fKind"].forEach(s => $(s).addEventListener("change", () => { sel=null; run(); }));
+["#fConf","#fOrg","#fKind","#fAta"].forEach(s => $(s).addEventListener("change", () => { sel=null; run(); }));
 load();
 })();
 </script>
